@@ -23,26 +23,54 @@ public class Produto implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_produto")
 	private Long id;
 	
+	@Column(name = "tipo_unidade", nullable = false)
 	private String tipoUnidade;
 	
+	@Column(name = "nome", nullable = false)
 	private String nome;
 	
-	@Column(columnDefinition = "TEXT")
+	@Column(name = "descricao", columnDefinition = "TEXT", nullable = false)
 	private String descricao;
 	
 	/** Nota item nota produto*/
+//	@ManyToOne
+//	@JoinColumn(name = "nota_item_produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_item_produto_fk"))
+//	private NotaItemProduto notaItemProduto;
 	
+	@Column(name = "peso", nullable = false)
 	private Double peso;
+	
+	@Column(name = "largura", nullable = false)
 	private Double largura;
+	
+	@Column(name = "altura", nullable = false)
 	private Double altura;
+	
+	@Column(name = "profundidade", nullable = false)
 	private Double profundidade;
+	
+	@Column(name = "valor_venda", nullable = false)
 	private BigDecimal valorVenda = BigDecimal.ZERO;
+	
+	@Column(name = "qtd_estoque", nullable = false)
 	private Integer qtdEstoque = 0;
+	
+	@Column(name = "senha")
 	private Integer qtdAlertaEstoque = 0;
+	
+	@Column(name = "link_youtube")
 	private String linkYoutube;
+	
+	@Column(name = "alerta_qtde_estoque")
 	private Boolean alertaQtdeEstoque = Boolean.FALSE;
+	
+	@Column(name = "qtde_clique")
 	private Integer qtdeClique = 0;
+	
+	@Column(name = "ativo", nullable = false)
 	private Boolean ativo = Boolean.TRUE;
+	
+	
 	public Long getId() {
 		return id;
 	}

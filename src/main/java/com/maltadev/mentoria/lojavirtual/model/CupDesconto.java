@@ -29,14 +29,14 @@ public class CupDesconto implements Serializable {
 	@Column(name = "cod_desc", nullable = false)
 	private String codDesc;
 	
-	@Column(name = "valor_real_desc", nullable = false)
+	@Column(name = "valor_real_desc")
 	private BigDecimal valorRealDesc;
 	
-	@Column(name = "valor_porcent_desc", nullable = false)
+	@Column(name = "valor_porcent_desc")
 	private BigDecimal valorPorcentDesc;
 	
 	@Temporal(TemporalType.DATE)
-	@Column(name = "data_validade_cupom")
+	@Column(name = "data_validade_cupom", nullable = false)
 	private Date dataValidadeCupom;
 	
 	
