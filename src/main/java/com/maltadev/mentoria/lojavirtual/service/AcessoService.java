@@ -1,6 +1,7 @@
 package com.maltadev.mentoria.lojavirtual.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,8 +30,8 @@ public class AcessoService {
 	}
 
 	@Transactional(readOnly = true)
-	public Acesso findById(Long id) {
-		return acessoRepository.findById(id).get();
+	public Optional<Acesso> findById(Long id) {
+		return acessoRepository.findById(id);
 	}
 
 	@Transactional(readOnly = true)

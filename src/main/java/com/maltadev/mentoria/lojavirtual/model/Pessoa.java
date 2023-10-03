@@ -7,13 +7,17 @@ import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
@@ -23,61 +27,91 @@ import javax.persistence.SequenceGenerator;
 public abstract class Pessoa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pessoa")
 	private Long id;
-	
-	@Column(name = "nome", nullable = false)	
+
+	@Column(name = "nome", nullable = false)
 	private String nome;
-	
+
 	@Column(name = "email", nullable = false)
 	private String email;
-	
+
 	@Column(name = "telefone", nullable = false)
 	private String telefone;
-	
+
+	@Column(name = "tipo_pessoa")
+	private String tipoPessoa;
+
 	@OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Endereco> enderecos = new ArrayList<>();
-	
-	
+
+	@ManyToOne(targetEntity = Pessoa.class)
+	@JoinColumn(name = "empresa_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	private Pessoa empresa;
+
+	public String getTipoPessoa() {
+		return tipoPessoa;
+	}
+
+	public void setTipoPessoa(String tipoPessoa) {
+		this.tipoPessoa = tipoPessoa;
+	}
+
+	public Pessoa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Pessoa empresa) {
+		this.empresa = empresa;
+	}
+
 	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}
+
 	public void setEnderecos(List<Endereco> enderecos) {
 		this.enderecos = enderecos;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getTelefone() {
 		return telefone;
 	}
+
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -89,12 +123,10 @@ public abstract class Pessoa implements Serializable {
 		Pessoa other = (Pessoa) obj;
 		return Objects.equals(id, other.id);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Pessoa [id=" + id + "]";
 	}
-	
-	
 
 }
