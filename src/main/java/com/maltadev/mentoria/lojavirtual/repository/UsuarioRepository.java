@@ -1,5 +1,7 @@
 package com.maltadev.mentoria.lojavirtual.repository;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,5 +29,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	@Modifying
 	@Query(value = "INSERT INTO usuarios_acesso(usuario_id, acesso_id) VALUES (?1, (SELECT id FROM acesso WHERE descricao = 'ROLE_USER'))", nativeQuery = true)
 	void insereAcessoUserPj(Long id);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "INSERT INTO usuarios_acesso(usuario_id, acesso_id) VALUES (?1, (SELECT id FROM acesso WHERE descricao = ?2))", nativeQuery = true)
+	void insereAcessoUserPj(Long id, String acesso);
+	
+	@Query("SELECT u FROM Usuario u WHERE u.dataAtualSenha <= CURRENT_DATE - 90")
+	List<Usuario> usuarioSenhaVencida();
 	
 }

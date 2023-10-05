@@ -23,8 +23,18 @@ public class PessoaUserService {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private ServiceSendEmail serviceSendEmail;
 
 	public PessoaJuridica salvarPessoaJuridica(PessoaJuridica pessoaJuridica) {
+		
+		//pessoaJuridica = pessoaRepository.save(pessoaJuridica);
+		
+		for(int i = 0; i < pessoaJuridica.getEnderecos().size(); i++) {
+			pessoaJuridica.getEnderecos().get(i).setPessoa(pessoaJuridica);
+			pessoaJuridica.getEnderecos().get(i).setEmpresa(pessoaJuridica);
+		}
 		
 		pessoaJuridica = pessoaRepository.save(pessoaJuridica);
 		
@@ -50,6 +60,21 @@ public class PessoaUserService {
 			usuarioPj = usuarioRepository.save(usuarioPj);
 			
 			usuarioRepository.insereAcessoUserPj(usuarioPj.getId());
+			usuarioRepository.insereAcessoUserPj(usuarioPj.getId(), "ROLE_ADMIN");
+			
+			/* Fazer o envio de e-mail do login e da senha */
+			StringBuilder menssagemHtml = new StringBuilder();
+			
+			menssagemHtml.append("<b>Segue abaixo seus dados de acesso para a loja virtual</b>");
+			menssagemHtml.append("<b>Login: </b>" + pessoaJuridica.getEmail() + "</br>");
+			menssagemHtml.append("<b>Senha: </b>" + senha + "</br></br>");
+			menssagemHtml.append("Obrigado!</br>");
+			
+//			try {
+//				serviceSendEmail.enviarEmailHtml("Acesso Gerado para Loja Virtual.", menssagemHtml.toString(), pessoaJuridica.getEmail());
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
 			
 		}
 		
