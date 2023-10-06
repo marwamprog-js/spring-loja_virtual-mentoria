@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.maltadev.mentoria.lojavirtual.model.PessoaJuridica;
 
-public interface PessoaRepository extends JpaRepository<PessoaJuridica, Long> {
+public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, Long> {
 
 	@Query("SELECT p FROM PessoaJuridica p WHERE p.cnpj = ?1")
 	public PessoaJuridica existeCnpjCadastrado(String cnpj);
@@ -13,4 +13,6 @@ public interface PessoaRepository extends JpaRepository<PessoaJuridica, Long> {
 	@Query("SELECT p FROM PessoaJuridica p WHERE p.inscEstadual = ?1")
 	public PessoaJuridica existeInscEstadualCadastrado(String inscEstadual);
 	
+	
+		
 }

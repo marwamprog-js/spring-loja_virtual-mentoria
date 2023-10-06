@@ -13,7 +13,7 @@ import com.maltadev.mentoria.lojavirtual.exception.ExceptionMentoria;
 import com.maltadev.mentoria.lojavirtual.model.Endereco;
 import com.maltadev.mentoria.lojavirtual.model.PessoaFisica;
 import com.maltadev.mentoria.lojavirtual.model.PessoaJuridica;
-import com.maltadev.mentoria.lojavirtual.repository.PessoaRepository;
+import com.maltadev.mentoria.lojavirtual.repository.PessoaJuridicaRepository;
 import com.maltadev.mentoria.lojavirtual.service.PessoaUserService;
 
 import junit.framework.TestCase;
@@ -26,14 +26,14 @@ public class TestePessoaUsuario extends TestCase{
 	private PessoaUserService pessoaUserService;
 	
 	@Autowired
-	private PessoaRepository pessoaRepository;
+	private PessoaJuridicaRepository pessoaJuridicaRepository;
 	
 	@Autowired
 	private PessoaController pessoaController;
 	
 	
 	@Test
-	public void testCadPessoaFisica() throws ExceptionMentoria {
+	public void testCadPessoaJuridica() throws ExceptionMentoria {
 		
 		PessoaJuridica pessoaJuridica = new PessoaJuridica();
 		pessoaJuridica.setCnpj("" + Calendar.getInstance().getTimeInMillis());
@@ -81,6 +81,58 @@ public class TestePessoaUsuario extends TestCase{
 		}
 		
 		assertEquals(2, pessoaJuridica.getEnderecos().size());
+		
+		
+	}
+	
+	@Test
+	public void testCadPessoaFisica() throws ExceptionMentoria {
+		
+		PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.existeCnpjCadastrado("28.295.103/0001-45");
+		
+		PessoaFisica pessoaFisica = new PessoaFisica();
+		pessoaFisica.setCpf("353.713.830-00");
+		pessoaFisica.setNome("Rafaela Ferreira");
+		pessoaFisica.setEmail("rafaela.ferreira@gmail.com");
+		pessoaFisica.setTelefone("31654989898");
+		pessoaFisica.setEmpresa(pessoaJuridica);
+		
+		Endereco endereco1 = new Endereco();
+		endereco1.setBairro("Jd Dias");
+		endereco1.setCep("1324567987");
+		endereco1.setComplemento("Casa");
+		endereco1.setEmpresa(pessoaFisica.getEmpresa());
+		endereco1.setNumero("36");
+		endereco1.setPessoa(pessoaFisica);
+		endereco1.setRuaLogradouro("Rua teste");
+		endereco1.setTipoEndereco(TipoEndereco.COBRANCA);
+		endereco1.setCidade("Curitiba");
+		endereco1.setUf("PR");
+		
+		Endereco endereco2 = new Endereco();
+		endereco2.setBairro("Jd Carlos Chaves");
+		endereco2.setCep("1155285");
+		endereco2.setComplemento("Casa 2");
+		endereco2.setEmpresa(pessoaFisica.getEmpresa());
+		endereco2.setNumero("38");
+		endereco2.setPessoa(pessoaFisica);
+		endereco2.setRuaLogradouro("Rua mais um");
+		endereco2.setTipoEndereco(TipoEndereco.ENTREGA);
+		endereco2.setCidade("Curitiba");
+		endereco2.setUf("PR");
+		
+		pessoaFisica.getEnderecos().add(endereco1);
+		pessoaFisica.getEnderecos().add(endereco2);
+		
+		pessoaFisica = pessoaController.salvarPf(pessoaFisica).getBody();
+		
+		assertEquals(true, pessoaFisica.getId() > 0);
+		
+		for(Endereco endereco : pessoaFisica.getEnderecos()) {
+			assertEquals(true, endereco.getId() > 0);
+		}
+		
+		assertEquals(2, pessoaFisica.getEnderecos().size());
 		
 		
 	}

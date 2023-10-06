@@ -28,12 +28,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	@Transactional
 	@Modifying
 	@Query(value = "INSERT INTO usuarios_acesso(usuario_id, acesso_id) VALUES (?1, (SELECT id FROM acesso WHERE descricao = 'ROLE_USER'))", nativeQuery = true)
-	void insereAcessoUserPj(Long id);
+	void insereAcessoUser(Long id);
 	
 	@Transactional
 	@Modifying
 	@Query(value = "INSERT INTO usuarios_acesso(usuario_id, acesso_id) VALUES (?1, (SELECT id FROM acesso WHERE descricao = ?2))", nativeQuery = true)
-	void insereAcessoUserPj(Long id, String acesso);
+	void insereAcessoUser(Long id, String acesso);
 	
 	@Query("SELECT u FROM Usuario u WHERE u.dataAtualSenha <= CURRENT_DATE - 90")
 	List<Usuario> usuarioSenhaVencida();
