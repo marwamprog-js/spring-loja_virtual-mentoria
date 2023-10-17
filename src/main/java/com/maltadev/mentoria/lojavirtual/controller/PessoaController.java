@@ -1,5 +1,7 @@
 package com.maltadev.mentoria.lojavirtual.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +33,7 @@ public class PessoaController {
 
 	@ResponseBody
 	@PostMapping(value = "**/salvarPj")
-	public ResponseEntity<PessoaJuridica> salvarPj(@RequestBody PessoaJuridica pessoaJuridica)
+	public ResponseEntity<PessoaJuridica> salvarPj(@RequestBody @Valid PessoaJuridica pessoaJuridica)
 			throws ExceptionMentoria {
 
 		if (pessoaJuridica == null) {
@@ -60,7 +62,7 @@ public class PessoaController {
 
 	@ResponseBody
 	@PostMapping(value = "**/salvarPf")
-	public ResponseEntity<PessoaFisica> salvarPf(@RequestBody PessoaFisica pessoaFisica)
+	public ResponseEntity<PessoaFisica> salvarPf(@RequestBody @Valid PessoaFisica pessoaFisica)
 			throws ExceptionMentoria {
 
 		if (pessoaFisica == null) {
@@ -70,7 +72,6 @@ public class PessoaController {
 		if (pessoaFisica.getId() == null && pessoaFisicaRepository.existeCpfCadastrado(pessoaFisica.getCpf()) != null) {
 			throw new ExceptionMentoria("Já existe CPF cadastrado com o número: " + pessoaFisica.getCpf());
 		}
-		
 
 		if (!ValidaCPF.isCPF(pessoaFisica.getCpf())) {
 			throw new ExceptionMentoria("CNPJ '" + pessoaFisica.getCpf() + "' está inválido.");

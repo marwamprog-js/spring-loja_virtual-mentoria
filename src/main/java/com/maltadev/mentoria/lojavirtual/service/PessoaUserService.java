@@ -122,12 +122,12 @@ public class PessoaUserService {
 			usuarioRepository.insereAcessoUser(usuarioPf.getId());
 
 			/* Fazer o envio de e-mail do login e da senha */
-			StringBuilder menssagemHtml = new StringBuilder();
-
-			menssagemHtml.append("<b>Segue abaixo seus dados de acesso para a loja virtual</b>");
-			menssagemHtml.append("<b>Login: </b>" + pessoaFisica.getEmail() + "</br>");
-			menssagemHtml.append("<b>Senha: </b>" + senha + "</br></br>");
-			menssagemHtml.append("Obrigado!</br>");
+//			StringBuilder menssagemHtml = new StringBuilder();
+//
+//			menssagemHtml.append("<b>Segue abaixo seus dados de acesso para a loja virtual</b>");
+//			menssagemHtml.append("<b>Login: </b>" + pessoaFisica.getEmail() + "</br>");
+//			menssagemHtml.append("<b>Senha: </b>" + senha + "</br></br>");
+//			menssagemHtml.append("Obrigado!</br>");
 
 //			try {
 //				serviceSendEmail.enviarEmailHtml("Acesso Gerado para Loja Virtual.", menssagemHtml.toString(), pessoaFisica.getEmail());
