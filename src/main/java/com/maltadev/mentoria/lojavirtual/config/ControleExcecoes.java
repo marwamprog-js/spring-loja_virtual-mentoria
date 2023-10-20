@@ -1,9 +1,14 @@
 package com.maltadev.mentoria.lojavirtual.config;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.mail.MessagingException;
+
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +24,15 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.maltadev.mentoria.lojavirtual.exception.ExceptionMentoria;
 import com.maltadev.mentoria.lojavirtual.model.dto.ObjetoErroDTO;
+import com.maltadev.mentoria.lojavirtual.service.ServiceSendEmail;
 
 @RestControllerAdvice
 @ControllerAdvice
 public class ControleExcecoes extends ResponseEntityExceptionHandler {
 
+	@Autowired
+	private ServiceSendEmail serviceSendEmail;
+	
 	@ExceptionHandler(ExceptionMentoria.class)
 	public ResponseEntity<Object> handleExceptionCustom(ExceptionMentoria ex) {
 		ObjetoErroDTO dto = new ObjetoErroDTO();
@@ -65,6 +74,12 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
 		
 		ex.printStackTrace();
 		
+//		try {
+//			serviceSendEmail.enviarEmailHtml("Erro na loja virtual", ExceptionUtils.getStackTrace(ex), "teste@teste.com");
+//		} catch (UnsupportedEncodingException | MessagingException e) {
+//			e.printStackTrace();
+//		}
+		
 		return new ResponseEntity<Object>(objetoErroDTO, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -90,6 +105,12 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
 		objetoErroDTO.setCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
 		
 		ex.printStackTrace();
+		
+//		try {
+//			serviceSendEmail.enviarEmailHtml("Erro na loja virtual", ExceptionUtils.getStackTrace(ex), "teste@teste.com");
+//		} catch (UnsupportedEncodingException | MessagingException e) {
+//			e.printStackTrace();
+//		}
 		
 		return new ResponseEntity<Object>(objetoErroDTO, HttpStatus.INTERNAL_SERVER_ERROR);
 		

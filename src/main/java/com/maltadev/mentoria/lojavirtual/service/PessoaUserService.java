@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.maltadev.mentoria.lojavirtual.model.PessoaFisica;
 import com.maltadev.mentoria.lojavirtual.model.PessoaJuridica;
 import com.maltadev.mentoria.lojavirtual.model.Usuario;
+import com.maltadev.mentoria.lojavirtual.model.dto.CepDTO;
+import com.maltadev.mentoria.lojavirtual.model.dto.ConsultaCnpjDTO;
 import com.maltadev.mentoria.lojavirtual.repository.PessoaFisicaRepository;
 import com.maltadev.mentoria.lojavirtual.repository.PessoaJuridicaRepository;
 import com.maltadev.mentoria.lojavirtual.repository.UsuarioRepository;
@@ -139,6 +142,18 @@ public class PessoaUserService {
 
 		return pessoaFisica;
 
+	}
+	
+	public CepDTO consultaCep(String cep) {
+		return new RestTemplate()
+				.getForEntity("https://viacep.com.br/ws/" + cep + "/json/", CepDTO.class)
+				.getBody();
+	}
+	
+	public ConsultaCnpjDTO consultaCnpjReceitaWS(String cnpj) {
+		return new RestTemplate()
+				.getForEntity("https://receitaws.com.br/v1/cnpj/" + cnpj, ConsultaCnpjDTO.class)
+				.getBody();
 	}
 
 }

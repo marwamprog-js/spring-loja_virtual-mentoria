@@ -25,15 +25,16 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
 
 	@Autowired
 	private ImplementacaoUserDetailsService detailsService;
-	
-	
+		
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http
 			.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-			.disable().authorizeRequests().antMatchers("/").permitAll()
+			.disable().authorizeRequests()
+			
+			.antMatchers("/").permitAll()
 			.antMatchers("/index").permitAll()
 			.antMatchers(HttpMethod.OPTIONS, "/**").permitAll() //Desbloqueia CORS
 			
