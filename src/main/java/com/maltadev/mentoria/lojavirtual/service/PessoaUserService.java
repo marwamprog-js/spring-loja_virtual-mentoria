@@ -32,8 +32,9 @@ public class PessoaUserService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	@Autowired
-	private ServiceSendEmail serviceSendEmail;
+	/*
+	 * @Autowired private ServiceSendEmail serviceSendEmail;
+	 */
 
 	public PessoaJuridica salvarPessoaJuridica(PessoaJuridica pessoaJuridica) {
 
