@@ -60,6 +60,10 @@ public class CategoriaProdutoController {
 	@PostMapping(value = "**/deleteCategoria")
 	public ResponseEntity<?> deleteAcesso(@RequestBody CategoriaProduto categoriaProduto) {
 		
+		if(categoriaProdutoRepository.findById(categoriaProduto.getId()).isPresent() == false) {
+			return new ResponseEntity("Categoria já foi removido.", HttpStatus.OK);
+		}
+		
 		categoriaProdutoRepository.deleteById(categoriaProduto.getId());
 		
 		return new ResponseEntity("Categoria removido.", HttpStatus.OK);
